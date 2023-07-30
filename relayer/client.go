@@ -473,6 +473,10 @@ func findMatchingClient(ctx context.Context, src, dst *Chain, newClientState ibc
 
 	if err = retry.Do(func() error {
 		clientsResp, err = src.ChainProvider.QueryClients(ctx)
+		src.log.Info(
+			"For fun",
+			zap.Any("clientsResp", clientsResp),
+		)
 		if err != nil {
 			return err
 		}
