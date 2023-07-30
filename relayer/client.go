@@ -7,7 +7,7 @@ import (
 
 	"github.com/avast/retry-go/v4"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	transfertypes "github.com/cosmos/ibc-go/v7/modules/apps/transfer/types"
 	clienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
 	ibcexported "github.com/cosmos/ibc-go/v7/modules/core/exported"
 	tmclient "github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint"
@@ -468,16 +468,16 @@ func MustGetHeight(h ibcexported.Height) clienttypes.Height {
 // state that will be created if there exist no matches.
 func findMatchingClient(ctx context.Context, src, dst *Chain, newClientState ibcexported.ClientState) (string, error) {
 	var (
-		testCoins   sdk.Coins
+		denomTrace  *transfertypes.DenomTrace
 		clientsResp clienttypes.IdentifiedClientStates
 		err         error
 	)
 
 	if err = retry.Do(func() error {
-		testCoins, err = src.ChainProvider.QueryBalance(ctx, "lacc")
+		denomTrace, err = src.ChainProvider.QueryDenomTrace(ctx, "stake")
 		src.log.Info(
 			"For fun",
-			zap.Any("clientsResp", testCoins),
+			zap.String("clientsResp", denomTrace.BaseDenom),
 		)
 		if err != nil {
 			return err
