@@ -479,7 +479,7 @@ func findMatchingClient(ctx context.Context, src, dst *Chain, newClientState ibc
 		return nil
 	}, retry.Context(ctx), RtyAtt, RtyDel, RtyErr, retry.OnRetry(func(n uint, err error) {
 		src.log.Info(
-			"Failed to query clients",
+			"Failed to query clients hhu",
 			zap.String("chain_id", src.ChainID()),
 			zap.Uint("attempt", n+1),
 			zap.Uint("max_attempts", RtyAttNum),
