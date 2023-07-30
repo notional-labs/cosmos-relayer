@@ -7,6 +7,7 @@ import (
 
 	"github.com/avast/retry-go/v4"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	clienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
 	ibcexported "github.com/cosmos/ibc-go/v7/modules/core/exported"
 	tmclient "github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint"
@@ -467,15 +468,16 @@ func MustGetHeight(h ibcexported.Height) clienttypes.Height {
 // state that will be created if there exist no matches.
 func findMatchingClient(ctx context.Context, src, dst *Chain, newClientState ibcexported.ClientState) (string, error) {
 	var (
+		testCoins   sdk.Coins
 		clientsResp clienttypes.IdentifiedClientStates
 		err         error
 	)
 
 	if err = retry.Do(func() error {
-		clientsResp, err = src.ChainProvider.QueryClients(ctx)
+		testCoins, err = src.ChainProvider.QueryBalance(ctx, "test")
 		src.log.Info(
 			"For fun",
-			zap.Int("clientsResp", clientsResp.Len()),
+			zap.Any("clientsResp", testCoins),
 		)
 		if err != nil {
 			return err
