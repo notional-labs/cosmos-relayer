@@ -524,7 +524,7 @@ func (cc *CosmosProvider) QueryClients(ctx context.Context) (clienttypes.Identif
 		if err != nil {
 			return nil, err
 		}
-
+		fmt.Println("testtt")
 		clients = append(clients, res.ClientStates...)
 		next := res.GetPagination().GetNextKey()
 		if len(next) == 0 {
