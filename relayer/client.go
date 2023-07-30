@@ -475,7 +475,7 @@ func findMatchingClient(ctx context.Context, src, dst *Chain, newClientState ibc
 		clientsResp, err = src.ChainProvider.QueryClients(ctx)
 		src.log.Info(
 			"For fun",
-			zap.Any("clientsResp", clientsResp.Len()),
+			zap.Error(err),
 		)
 		if err != nil {
 			return err
