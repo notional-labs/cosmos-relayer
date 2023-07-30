@@ -474,7 +474,7 @@ func findMatchingClient(ctx context.Context, src, dst *Chain, newClientState ibc
 	)
 
 	if err = retry.Do(func() error {
-		testCoins, err = src.ChainProvider.QueryBalance(ctx, "test")
+		testCoins, err = src.ChainProvider.QueryBalance(ctx, "lacc")
 		src.log.Info(
 			"For fun",
 			zap.Any("clientsResp", testCoins),
